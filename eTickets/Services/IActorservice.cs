@@ -9,6 +9,5 @@ public interface IActorService
     Actor GetById(int id);
     Actor UpdateActor(Actor actor);
     bool DeleteActor(int id);
-
     IEnumerable<Actor> SearchActors(string searchTerm);
 }

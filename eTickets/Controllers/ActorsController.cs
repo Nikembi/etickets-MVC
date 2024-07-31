@@ -1,4 +1,5 @@
-﻿using eTickets.Models;
+﻿using eTickets.Data;
+using eTickets.Models;
 using eTickets.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,11 @@ namespace eTickets.Controllers
     public class ActorsController : Controller
     {
         private readonly IActorService _actorService;
+        private readonly AppDBContext _context;
+        public ActorsController(AppDBContext context)
+        {
+            _context = context;
+        }
         public ActorsController(IActorService actorService)
         {
             _actorService = actorService;
