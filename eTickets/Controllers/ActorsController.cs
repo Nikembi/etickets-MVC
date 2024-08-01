@@ -1,4 +1,8 @@
-﻿using eTickets.Data;
+﻿using Azure.Core;
+using Azure;
+using Polly;
+using Flurl;
+using eTickets.Data;
 using eTickets.Models;
 using eTickets.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +20,7 @@ namespace eTickets.Controllers
             _actorService = actorService;
         }
 
+
         [HttpGet]
         public ActionResult<List<Actor>> Index()
         {
@@ -23,12 +28,6 @@ namespace eTickets.Controllers
             return _actorService.GetActorsAsync();
            
         }
-
-        // [HttpGet("CreateActor")]
-        // public IActionResult Create()
-        // {
-        //     return View();
-        // }
 
         [HttpPost]
         public async Task<IActionResult> Create(Actor actor)
@@ -47,5 +46,7 @@ namespace eTickets.Controllers
             }
             return View(actor);
         }
+        
     }
 }
+

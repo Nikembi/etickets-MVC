@@ -1,8 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Actor
+@{
+    ViewData["Title"] = "Actors";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form action="/submit" method="post" class="justify-content-center">
+    <div class="row col-5 margin justify-content-center">
+    
+    <input type="text" name="name" value="" placeholder="Name" />
+
+
+        <input type="type" name="bio" value="" placeholder="Bio" />
+
+
+
+        <input type="type" name="name" value="" placeholder="" />
+
+        <button type="button" class="btn btn-outline-primary">Primary</button>
+        <button type="button" class="btn btn-outline-primary">Primary</button>
+    </div>
+</form>

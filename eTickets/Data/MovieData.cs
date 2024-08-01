@@ -26,14 +26,6 @@ namespace eTickets.Data
 
         public DbSet<Producer> Producers => throw new NotImplementedException();
 
-        public async Task<List<ChapterResponse>> GetChapters()
-        {
-            var policy = BuildRetryPolicy();
-            var url = String.IsNullOrEmpty(_ApiSettings.BaseUrl) ? "moviesdatabase.p.rapidapi.com".AppendPathSegments("v2", "chapters", "en") : _ApiSettings.BaseUrl.AppendPathSegments("v2", "chapters", "en");
-            var result = policy.ExecuteAsync(async () => await url.GetJsonAsync<List<ChapterResponse>>());
-            return await result ?? new List<ChapterResponse>();
-
-        }
         private static bool IsTransientError(FlurlHttpException exception)
         {
             int[] httpStatusCodesWorthRetrying =

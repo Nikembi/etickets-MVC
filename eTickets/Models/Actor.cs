@@ -15,6 +15,7 @@ namespace eTickets.Models
 
         [Display(Name = "Profile Picture URL")]
         [DataType(DataType.ImageUrl)]
+
         public string ProfilePictureUrl { get; set; }
 
         [Required(ErrorMessage = "Full Name is required")]
