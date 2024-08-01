@@ -1,5 +1,6 @@
 ﻿using eTickets.Data;
 using eTickets.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Services;
@@ -13,9 +14,9 @@ public class ActorService : IActorService
         _context = context;
     }
 
-    public async Task<IEnumerable<Actor>> GetActorsAsync()
+    public ActionResult<List<Actor>> GetActorsAsync()
     {
-        var list = await _context.Actors.ToListAsync();
+        var list = _context.Actors.ToList();
         return list;
     }
 

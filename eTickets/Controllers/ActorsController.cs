@@ -5,31 +5,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eTickets.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ActorsController : Controller
     {
         private readonly IActorService _actorService;
-        private readonly AppDBContext _context;
-        public ActorsController(AppDBContext context)
-        {
-            _context = context;
-        }
+ 
         public ActorsController(IActorService actorService)
         {
             _actorService = actorService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public ActionResult<List<Actor>> Index()
         {
-            var actors = await _actorService.GetActorsAsync();
-            return View(actors);
+            var actors = _actorService.GetActorsAsync();
+            return _actorService.GetActorsAsync();
+           
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        // [HttpGet("CreateActor")]
+        // public IActionResult Create()
+        // {
+        //     return View();
+        // }
 
         [HttpPost]
         public async Task<IActionResult> Create(Actor actor)

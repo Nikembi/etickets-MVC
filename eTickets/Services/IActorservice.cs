@@ -1,10 +1,11 @@
 ﻿using eTickets.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eTickets.Services;
 
 public interface IActorService
 {
-    Task<IEnumerable<Actor>> GetActorsAsync();
+    ActionResult<List<Actor>> GetActorsAsync();
     Task<Actor> CreateActorAsync(Actor actor);
     Actor GetById(int id);
     Actor UpdateActor(Actor actor);
