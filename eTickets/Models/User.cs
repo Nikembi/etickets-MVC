@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using eTickets.Controllers;
+using eTickets.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace eTickets.Models
 {
@@ -7,18 +9,23 @@ namespace eTickets.Models
         [Key]
         public int Id { get; set; }
 
-        public string? UserName {  get; set; }
+        public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Full Name is required")]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Full Name must be between 5 and 100 characters")]
         [Display(Name = "Full Name")]
-        public string? FullName { get; set; }
+        public string? Name { get; set; }
+
+        public string Email { get; set; }
 
         [Display(Name = "Date of Birth")]
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
+        public byte[] PasswordHash { get; set; }
 
+        public byte[] PasswordSalt { get; set; }
 
+        
 
 
     }

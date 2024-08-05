@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace eTickets.Data
 {
-    public class AppDBContext:DbContext
+    public class AppDBContext: DbContext
     {
 
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
@@ -37,5 +37,6 @@ namespace eTickets.Data
         public DbSet<Actor_Movie> Actors_Movies { get; set; }
         public DbSet<Cinemas> Cinemas { get; set; }
         public DbSet<Producer> Producers { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

@@ -1,31 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using eTickets.Data;
+﻿using eTickets.Data;
 using eTickets.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Controllers
 {
-    public class Actors1Controller : Controller
+    public class UsersController : Controller
     {
         private readonly AppDBContext _context;
-
-        public Actors1Controller(AppDBContext context)
+        public UsersController(AppDBContext context)
         {
             _context = context;
         }
-
-        // GET: Actors1
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Actors.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Actors1/Details/5
+        // GET: Producers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +25,39 @@ namespace eTickets.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(actor);
+            return View(user);
         }
 
-        // GET: Actors1/Create
+        // GET: Producers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Actors1/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Producers/Create
+ 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProfilePictureUrl,FullName,Bio,DateOfBirth")] Actor actor)
+        public async Task<IActionResult> Create([Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(actor);
+                _context.Add(producer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(actor);
+            return View(producer);
         }
 
-        // GET: Actors1/Edit/5
+        // GET: Producers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +65,22 @@ namespace eTickets.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors.FindAsync(id);
-            if (actor == null)
+            var producer = await _context.Producers.FindAsync(id);
+            if (producer == null)
             {
                 return NotFound();
             }
-            return View(actor);
+            return View(producer);
         }
 
-        // POST: Actors1/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Producers/Edit/5
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureUrl,FullName,Bio,DateOfBirth")] Actor actor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
         {
-            if (id != actor.Id)
+            if (id != producer.Id)
             {
                 return NotFound();
             }
@@ -97,12 +89,12 @@ namespace eTickets.Controllers
             {
                 try
                 {
-                    _context.Update(actor);
+                    _context.Update(producer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ActorExists(actor.Id))
+                    if (!ProducerExists(producer.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +105,10 @@ namespace eTickets.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(actor);
+            return View(producer);
         }
 
-        // GET: Actors1/Delete/5
+        // GET: Producers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +116,34 @@ namespace eTickets.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
+            var producer = await _context.Producers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
+            if (producer == null)
             {
                 return NotFound();
             }
 
-            return View(actor);
+            return View(producer);
         }
 
-        // POST: Actors1/Delete/5
+        // POST: Producers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var actor = await _context.Actors.FindAsync(id);
-            if (actor != null)
+            var producer = await _context.Producers.FindAsync(id);
+            if (producer != null)
             {
-                _context.Actors.Remove(actor);
+                _context.Producers.Remove(producer);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ActorExists(int id)
+        private bool ProducerExists(int id)
         {
-            return _context.Actors.Any(e => e.Id == id);
+            return _context.Producers.Any(e => e.Id == id);
         }
     }
 }

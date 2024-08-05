@@ -3,6 +3,7 @@ using eTickets.Data.Interface;
 using eTickets.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
+builder.Services.AddDefaultIdentity<eTicketsUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDbContext>();
 builder.Services.AddSingleton<IMovieData>(s => s.GetService<IMovieData>()!);
 builder.Services.AddScoped<IActorService, ActorService>();
 var app = builder.Build();

@@ -6,6 +6,5 @@
         Comedy,
         Romance,
         Horror
-
     }
 }

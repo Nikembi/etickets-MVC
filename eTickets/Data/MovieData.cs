@@ -26,6 +26,8 @@ namespace eTickets.Data
 
         public DbSet<Producer> Producers => throw new NotImplementedException();
 
+        public DbSet<User> Users => throw new NotImplementedException();
+
         private static bool IsTransientError(FlurlHttpException exception)
         {
             int[] httpStatusCodesWorthRetrying =
