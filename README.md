@@ -1,2 +1,2 @@
 <h1>eTickets by Nikembi</h1>
-<p> An eticket web app built using the ASP.NET MVC structure. The front-end will be built using AngularJS utilizing it's libraby and control with Typescript.</p>
+<p> A web cinema for customers to view released, and upcoming movies. I also plan to add a user interface to purchase tickets. The backend is built on the ASP.NET MVC with the Front End being built with model views which will eventually be replaced using AngularJS utilizing it's library and control with Typescript.</p>
