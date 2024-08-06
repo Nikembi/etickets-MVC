@@ -4,6 +4,7 @@ using eTickets.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using eTickets.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Movies}/{action=Index}/{id?}");
 
 app.Run();

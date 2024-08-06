@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Controllers
 {
-    public class UserController : Controller
+    public class AdminController : Controller
     {
         private readonly AppDBContext _context;
         private readonly IConfiguration _configuration;
 
-        public UserController(AppDBContext context, IConfiguration configuration)
+        public AdminController(AppDBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
