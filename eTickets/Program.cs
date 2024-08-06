@@ -13,9 +13,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
-
-builder.Services.AddDefaultIdentity<eTicketsUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDbContext>();
-builder.Services.AddSingleton<IMovieData>(s => s.GetService<IMovieData>()!);
 builder.Services.AddScoped<IActorService, ActorService>();
 var app = builder.Build();
 

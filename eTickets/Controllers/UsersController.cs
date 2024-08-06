@@ -1,149 +1,123 @@
 ﻿using eTickets.Data;
 using eTickets.Models;
+using eTickets.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Controllers
 {
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         private readonly AppDBContext _context;
-        public UsersController(AppDBContext context)
+        private readonly IConfiguration _configuration;
+
+        public UserController(AppDBContext context, IConfiguration configuration)
         {
             _context = context;
-        }
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Users.ToListAsync());
+            _configuration = configuration;
         }
 
-        // GET: Producers/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // GET: Producers/Create
-        public IActionResult Create()
+        public IActionResult Index()
         {
             return View();
         }
 
-        // POST: Producers/Create
- 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        public async Task<IActionResult> Login(UserDTO model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(producer);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
+                }
+
+                if (!VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt))
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.--+");
+                    return View(model);
+                }
+
+                // Here you would typically sign in the user and redirect
+                // For example, using ASP.NET Core Identity:
+                // await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Actors");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(UserDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _context.Users.AnyAsync(u => u.UserName == model.UserName))
+                {
+                    ModelState.AddModelError("Username", "Username already exists.");
+                    return View(model);
+                }
+
+                CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                var user = new User
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    Name = model.Name,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt
+                };
+
+                _context.Users.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Here you would typically sign in the user and redirect
+                return RedirectToAction("Login");
             }
-            return View(producer);
+
+            return View(model);
         }
 
-        // GET: Producers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Logout()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var producer = await _context.Producers.FindAsync(id);
-            if (producer == null)
-            {
-                return NotFound();
-            }
-            return View(producer);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
         }
 
-        // POST: Producers/Edit/5
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            if (id != producer.Id)
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
-                return NotFound();
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(producer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProducerExists(producer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(producer);
         }
-
-        // GET: Producers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            if (id == null)
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
-                return NotFound();
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
             }
-
-            var producer = await _context.Producers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (producer == null)
-            {
-                return NotFound();
-            }
-
-            return View(producer);
-        }
-
-        // POST: Producers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var producer = await _context.Producers.FindAsync(id);
-            if (producer != null)
-            {
-                _context.Producers.Remove(producer);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProducerExists(int id)
-        {
-            return _context.Producers.Any(e => e.Id == id);
         }
     }
 }
