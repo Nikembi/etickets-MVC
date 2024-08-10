@@ -75,14 +75,18 @@ namespace eTickets.Controllers
                     ModelState.AddModelError("Username", "Username already exists.");
                     return View(model);
                 }
-
+                //Email Error notifying current existence not working. Fix soon 
+                if (await _context.Users.AnyAsync(e => e.Email == model.Email))
+                {
+                    ModelState.AddModelError("Email", "This email is already in use.");
+                    return View(model);
+                }
                 CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
                 var user = new User
                 {
                     Username = model.Username,
-                    Email = model.Email,
-                    Name = model.Name,
+                    Email = model.Email,                    
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt
                 };

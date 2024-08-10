@@ -82,7 +82,7 @@ namespace eTickets.Controllers
                 {
                     Username = model.Username,
                     Email = model.Email,
-                    Name = model.Name,
+                    
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt
                 };
