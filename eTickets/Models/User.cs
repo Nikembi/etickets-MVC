@@ -9,8 +9,8 @@ namespace eTickets.Models
     {
         [Key]
         public int Id { get; set; }
-        public UserRoles? UserRoles { get; set; }
-        public string? Username { get; set; }
+        //public UserRoles? UserRoles { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Full Name is required")]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Full Name must be between 5 and 100 characters")]

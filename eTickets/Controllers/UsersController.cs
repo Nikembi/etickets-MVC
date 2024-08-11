@@ -23,15 +23,21 @@ namespace eTickets.Controllers
         {
             return View();
         }
+        [CustomAuthorize(Constants.Role.User | Constants.Role.Admin)]
+        public IActionResult AdminOnly()
+        {
 
+        }
         [HttpGet]
         public IActionResult Login()
         {
+            //Make layout page specific to regular users.
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Login(UserDTO model)
         {
             if (ModelState.IsValid)

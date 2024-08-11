@@ -12,17 +12,16 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
             <div class="container-fluid">
-                <a class="navbar-brand"  asp-area="" asp-controller="" asp-action="">eTickets</a>
+                <a class="navbar-brand"  asp-area="" asp-controller="" asp-action="">
+                    <img src="~/Images/sitelgo.png" alt="Alternate Text" width="45" height="40"/>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor03">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" >
-                                Home
-                                <span class="visually-hidden">(current)</span>
-                            </a>
+                            <a class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" >Features</a>
@@ -41,10 +40,21 @@
                                 <a class="dropdown-item" asp-controller="Cinemas" asp-action="Index">Cinemas</a>
                                 <a class="dropdown-item" asp-controller="Producers" asp-action="Index">Producers</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" >Separated link</a>
+                                <a class="dropdown-item" >Admin Dashboard</a>
+                            </div>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-controller="Movies" asp-action="Index">Create/Edit Movies</a>
+                                <a class="dropdown-item" asp-controller="Actors" asp-action="Index">Actors</a>
+                                <a class="dropdown-item" asp-controller="Cinemas" asp-action="Index">Cinemas</a>
+                                <a class="dropdown-item" asp-controller="Producers" asp-action="Index">Producers</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item">Admin Dashboard</a>
                             </div>
                         </li>
                     </ul>
+                    <form class="d-flex">
+                        <button class="btn btn-dark my-2 my-sm-0" type="submit" asp-controller="User" asp-action="Login">Login</button>
+                    </form>
                     <form class="d-flex">
                         <input class="form-control me-sm-2" type="search" placeholder="Search">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
@@ -58,13 +68,13 @@
                 @RenderBody()
             </main>
       </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - Nikembi Travis
         </div>
-   </body>
     </footer>
+   </body>
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
